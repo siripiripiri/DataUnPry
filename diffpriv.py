@@ -106,3 +106,59 @@ class PrivateDataAnalyzer:
         
         return private_counts
 
+def create_streamlit_app():
+    st.title("PrivData: Differential Privacy for Survey Data Analysis")
+    
+    # File upload
+    uploaded_file = st.file_uploader("Upload CSV file", type="csv")
+    if uploaded_file is not None:
+        data = pd.read_csv(uploaded_file)
+        analyzer = PrivateDataAnalyzer()
+        analyzer.load_data(data)
+        
+        st.write("### Dataset Overview")
+        st.write(f"Number of records: {len(data)}")
+        st.write(f"Numeric columns: {analyzer.numeric_columns}")
+        st.write(f"Categorical columns: {analyzer.categorical_columns}")
+        
+        # Analysis options
+        analysis_type = st.selectbox(
+            "Select Analysis Type",
+            ["Mean", "Count", "Histogram"]
+        )
+        
+        epsilon = st.slider("Privacy Budget (ε)", 0.01, 1.0, 0.1, 0.01)
+        
+        if analysis_type == "Mean":
+            column = st.selectbox("Select Column", analyzer.numeric_columns)
+            if st.button("Calculate Private Mean"):
+                result = analyzer.private_mean(column, epsilon)
+                st.write(f"Private Mean of {column}: {result:.2f}")
+        
+        elif analysis_type == "Count":
+            column = st.selectbox("Select Column", data.columns)
+            value = st.text_input("Value to count (leave empty for total count)", "")
+            if st.button("Calculate Private Count"):
+                result = analyzer.private_count(column, value if value else None, epsilon)
+                st.write(f"Private Count: {result}")
+        
+        elif analysis_type == "Histogram":
+            column = st.selectbox("Select Column", analyzer.categorical_columns)
+            if st.button("Generate Private Histogram"):
+                result = analyzer.private_histogram(column, epsilon)
+                st.write("Private Histogram:")
+                st.bar_chart(pd.Series(result))
+        
+        # Privacy budget tracking
+        st.write("### Privacy Budget Tracking")
+        st.write(f"Remaining privacy budget: {analyzer.privacy_budget.get_remaining_budget():.3f}")
+        
+        # Query history
+        st.write("### Query History")
+        history = analyzer.privacy_budget.get_history()
+        if history:
+            history_df = pd.DataFrame(history)
+            st.table(history_df)
+
+if __name__ == "__main__":
+    create_streamlit_app()
