@@ -65,11 +65,11 @@ class PrivateDataAnalyzer:
         sensitivity = data_range / n
         
         # For debugging
-        st.write(f"Debug Info:")
-        st.write(f"True mean: {true_mean}")
-        st.write(f"Data range: {data_range}")
-        st.write(f"Sensitivity: {sensitivity}")
-        st.write(f"Number of records: {n}")
+        # st.write(f"Debug Info:")
+        # st.write(f"True mean: {true_mean}")
+        # st.write(f"Data range: {data_range}")
+        # st.write(f"Sensitivity: {sensitivity}")
+        # st.write(f"Number of records: {n}")
         
         private_mean = self._add_laplace_noise(true_mean, sensitivity, epsilon)
         return private_mean
