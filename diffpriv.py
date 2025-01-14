@@ -107,7 +107,7 @@ class PrivateDataAnalyzer:
         return private_counts
 
 def create_streamlit_app():
-    st.title("PrivData: Differential Privacy for Survey Data Analysis")
+    st.title("Data Unpry: Differential Privacy for Survey Data Analysis")
     
     # File upload
     uploaded_file = st.file_uploader("Upload CSV file", type="csv")

@@ -48,5 +48,5 @@ DataUnpry is an interactive tool for analyzing survey data while preserving priv
 
 3. Run the App:
   ```bash
-  streamlit run app.py
+  streamlit diffpriv app.py
   ```
