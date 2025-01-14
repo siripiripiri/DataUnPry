@@ -41,11 +41,9 @@ DataUnpry is an interactive tool for analyzing survey data while preserving priv
    cd privdata
 
 2. Install dependencies:
-
   ```bash
   pip install -r requirements.txt
 
-3. Run the app:
-
+3. Run the App:
   ```bash
   streamlit run app.py
